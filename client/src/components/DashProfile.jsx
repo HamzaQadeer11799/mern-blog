@@ -19,6 +19,7 @@ import {
   deleteStart,
   deleteSuccess,
   deleteFailure,
+  signOutSuccess,
 } from '../redux/user/userSlice';
 export default function DashProfile() {
   const [imageFile, setImageFile] = useState(null);
@@ -125,7 +126,7 @@ export default function DashProfile() {
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
-      const data = res.json();
+      const data = await res.json();
       if (!res.ok) {
         dispatch(deleteFailure(data.message));
       } else {
@@ -133,6 +134,21 @@ export default function DashProfile() {
       }
     } catch (error) {
       dispatch(deleteFailure(error));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
   // const handleDelete = async () => {
@@ -231,14 +247,16 @@ export default function DashProfile() {
 
         <div className="text-red-300 flex justify-between mt-3">
           <span
-            onClickCapture={() => {
+            onClick={() => {
               setShowModal(true);
             }}
             className="cursor-pointer"
           >
             Delete Account
           </span>
-          <span className="cursor-pointer">LogOut</span>
+          <span className="cursor-pointer" onClick={handleSignOut}>
+            LogOut
+          </span>
         </div>
         {updateUserError && <Alert color="failure">{updateUserError}</Alert>}
         {error && <Alert color="failure">{error}</Alert>}
