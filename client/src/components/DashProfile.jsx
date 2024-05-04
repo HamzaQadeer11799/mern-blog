@@ -21,6 +21,7 @@ import {
   deleteFailure,
   signOutSuccess,
 } from '../redux/user/userSlice';
+import { Link } from 'react-router-dom';
 export default function DashProfile() {
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -29,7 +30,7 @@ export default function DashProfile() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setupdateUserSuccess] = useState(null);
@@ -238,9 +239,25 @@ export default function DashProfile() {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone={'pinkToOrange'} outline>
-          Update
+        <Button
+          type="submit"
+          gradientDuoTone={'pinkToOrange'}
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? 'loading...' : 'Update'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
         {updateUserSuccess && (
           <Alert color="success">{updateUserSuccess}</Alert>
         )}
