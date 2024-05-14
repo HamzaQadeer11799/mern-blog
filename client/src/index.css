@@ -26,3 +26,6 @@ body {
   color: rgb(73, 149, 199);
   text-decoration: none;
 }
+.dark .post-content h1 {
+  color: azure;
+}

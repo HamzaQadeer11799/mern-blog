@@ -2,6 +2,7 @@ import { Button, Spinner } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DangerHtml from '../components/DangerHtml';
+import CallToAction from '../components/CallToAction';
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -64,6 +65,9 @@ export default function PostPage() {
       <div>
         {' '}
         <DangerHtml postSlug={postSlug} />
+      </div>
+      <div className="max-w-4xl mx-auto w-full">
+        <CallToAction />
       </div>
     </main>
   );
